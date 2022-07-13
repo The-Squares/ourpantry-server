@@ -23,5 +23,9 @@ public interface ShelterDao {
 
     int addShelterItem(UUID id, Item item);
 
-    int removeShelterItem(UUID id, UUID Iid);
+    int removeShelterItem(UUID id, String iName);
+
+    int addItemQuant (UUID id, String iName);
+
+    int minItemQuant (UUID id, String iName);
 }

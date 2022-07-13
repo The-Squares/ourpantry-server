@@ -49,8 +49,8 @@ public class CustomerService {
         return customerDao.subBalanceById(id, balance);
     }
         
-    public int buyItemById (UUID id, UUID mID, UUID itemID){
-        return customerDao.buyItem(id, mID, itemID);
+    public int buyItemById (UUID id, UUID mID, String iName){
+        return customerDao.buyItem(id, mID, iName);
     }
 
 }

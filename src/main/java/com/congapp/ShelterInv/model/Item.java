@@ -8,16 +8,12 @@ public class Item {
     
 
     private String name;
-    private double price;
-    private UUID id;
+    private int quantity;
 
     public Item(@JsonProperty("name")  String name, 
-                @JsonProperty("price")  double price,
-                @JsonProperty("id")  UUID id){
+                @JsonProperty("quantity")  int quantity){
         this.name = name;
-        this.price = price;
-        this.id = id;
-        this.id = UUID.randomUUID();
+        this.quantity = quantity;
     }
 
     public String getName(){
@@ -28,16 +24,11 @@ public class Item {
         this.name = name;
     }
 
-    public double getPrice(){
-        return price;
-    }
-    
-    public void setPrice(double price){
-        this.price = price;
+    public void addQuant(){
+        quantity += 1;
     }
 
-    public UUID getId(){
-        return id;
+    public void minQuant(){
+        quantity -= 1;
     }
-
 }

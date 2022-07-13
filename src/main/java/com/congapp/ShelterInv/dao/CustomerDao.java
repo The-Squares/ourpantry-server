@@ -26,7 +26,7 @@ public interface CustomerDao {
 
     int subBalanceById(UUID id, double amount);
 
-    int buyItem(UUID id, UUID mID, UUID itemID);
+    int buyItem(UUID id, UUID mID, String iName);
 
 }
 

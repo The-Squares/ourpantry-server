@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.congapp.ShelterInv.model.Item;
@@ -53,10 +53,19 @@ public class ShelterController {
         return shelterService.addItem(id, item);
     }
 
-    @DeleteMapping(path = "{id}/item/{Iid}")
-    public int removeItemById(@PathVariable UUID id, @PathVariable UUID Iid){
-        return shelterService.removeItem(id, Iid);
+    @DeleteMapping(path = "{id}/item/{iName}")
+    public int removeItemById(@PathVariable UUID id, @PathVariable String iName){
+        return shelterService.removeItem(id, iName);
     }
 
+    @PutMapping (path = "{id}/item/{iName}/add")
+    public int addItemQuanityByOne(@PathVariable UUID id, @PathVariable String iName){
+        return shelterService.addQuant(id, iName);
+    }
+
+    @PutMapping(path = "{id}/item/{iName}/sub")
+    public int subItemQuanityByOne(@PathVariable UUID id, @PathVariable String iName){
+        return shelterService.minQuant(id, iName);
+    }
 
 }

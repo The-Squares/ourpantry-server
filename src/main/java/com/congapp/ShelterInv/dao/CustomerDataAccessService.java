@@ -67,10 +67,9 @@ public class CustomerDataAccessService implements CustomerDao{
     }
 
     @Override
-    public int buyItem(UUID id, UUID mID, UUID itemID) {
-        if (DB.indexOf(selectPersonById(id)) < 0 || selectPersonById(id).getBalance() < marketAccess.selectShelterById(mID).getItemByID(itemID).getPrice()) return 0;
-        selectPersonById(id).subBalance(marketAccess.selectShelterById(mID).getItemByID(itemID).getPrice());
-        marketAccess.selectShelterById(mID).removeItemByID(itemID);
+    public int buyItem(UUID id, UUID mID, String iName) {
+        if (DB.indexOf(selectPersonById(id)) < 0 || marketAccess.selectShelterById(mID).getItemByName(iName) != null) return 0;
+        marketAccess.selectShelterById(mID).removeItemByName(iName);
         return 1;
     }
 

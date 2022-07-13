@@ -41,8 +41,16 @@ public class ShelterService {
         return shelterDao.addShelterItem(id, item);
     }
 
-    public int removeItem(UUID id, UUID Iid){
-        return shelterDao.removeShelterItem(id, Iid);
+    public int removeItem(UUID id, String iName){
+        return shelterDao.removeShelterItem(id, iName);
+    }
+
+    public int addQuant(UUID id, String iName){
+        return shelterDao.addItemQuant(id, iName);
+    }
+
+    public int minQuant(UUID id, String iName){
+        return shelterDao.minItemQuant(id, iName);
     }
 
 }
