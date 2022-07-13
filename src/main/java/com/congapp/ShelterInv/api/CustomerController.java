@@ -68,8 +68,8 @@ public class CustomerController {
     }
 
     @PutMapping(path = "{id}/buy/{mID}")
-    public int CustBuyItemByID(@PathVariable UUID id, @PathVariable UUID mID, @RequestParam UUID itemID){
-        return personService.buyItemById(id, mID, itemID);
+    public int CustBuyItemByName(@PathVariable UUID id, @PathVariable UUID mID, @RequestParam String iName){
+        return personService.buyItemByName(id, mID, iName);
     }
 
 }
