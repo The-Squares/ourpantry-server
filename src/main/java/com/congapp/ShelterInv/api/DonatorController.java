@@ -16,34 +16,34 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.yaml.snakeyaml.error.Mark;
 
-import com.congapp.ShelterInv.model.Customer;
-import com.congapp.ShelterInv.service.CustomerService;
+import com.congapp.ShelterInv.model.Donator;
+import com.congapp.ShelterInv.service.DonatorService;
 import com.congapp.ShelterInv.service.ShelterService;
 
 @RequestMapping("api/v1/customer")
 @RestController
-public class CustomerController {
+public class DonatorController {
     
-    private final CustomerService personService;
+    private final DonatorService personService;
     //private final MarketService marketService;
 
     @Autowired
-    public CustomerController (CustomerService personService){
+    public DonatorController (DonatorService personService){
         this.personService = personService;
     }
 
     @PostMapping
-    public void addPerson(@RequestBody Customer person){
+    public void addPerson(@RequestBody Donator person){
         personService.addPerson(person);
     }
 
     @GetMapping
-    public List<Customer> getAllPeople(){
+    public List<Donator> getAllPeople(){
         return personService.getAllPeople();
     }
 
     @GetMapping(path = "{id}")
-    public Customer getPersonByID(@PathVariable UUID id){
+    public Donator getPersonByID(@PathVariable UUID id){
         return personService.getPersonById(id);
     }
 
@@ -55,21 +55,6 @@ public class CustomerController {
     @PutMapping(path = "{id}")
     public int changePersonName(@PathVariable UUID id, @RequestParam String name){
         return personService.changePersonName(id, name);
-    }
-
-    @PutMapping(path = "{id}/add")
-    public int addPersonBalanceByID(@PathVariable UUID id, @RequestParam double amount){
-        return personService.increaseBalanceById(id, amount);
-    }
-
-    @PutMapping(path = "{id}/sub")
-    public int subPersonBalanceByID(@PathVariable UUID id, @RequestParam double amount){
-        return personService.decreaseBalanceById(id, amount);
-    }
-
-    @PutMapping(path = "{id}/buy/{mID}")
-    public int CustBuyItemByName(@PathVariable UUID id, @PathVariable UUID mID, @RequestParam String iName){
-        return personService.buyItemByName(id, mID, iName);
     }
 
 }

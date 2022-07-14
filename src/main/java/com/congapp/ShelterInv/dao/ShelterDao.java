@@ -22,7 +22,7 @@ public interface ShelterDao {
 
     int deleteShelterById(UUID id);
 
-    List<Item> selectAllItems();
+    List<Item> selectAllItems(UUID id);
 
     int addShelterItem(UUID id, Item item);
 
