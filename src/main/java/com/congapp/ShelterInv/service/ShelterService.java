@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.congapp.ShelterInv.dao.ShelterDao;
 import com.congapp.ShelterInv.model.Item;
 import com.congapp.ShelterInv.model.Shelter;
+import com.congapp.ShelterInv.model.Item.Level;
 
 @Service
 public class ShelterService {
@@ -37,6 +38,10 @@ public class ShelterService {
         return shelterDao.deleteShelterById(id);
     }
 
+    public List<Item> getItems(UUID id){
+        return shelterDao.selectAllItems(id);
+    }
+
     public int addItem(UUID id, Item item){
         return shelterDao.addShelterItem(id, item);
     }
@@ -51,6 +56,14 @@ public class ShelterService {
 
     public int minQuant(UUID id, String iName){
         return shelterDao.minItemQuant(id, iName);
+    }
+
+    public Level getPrior(UUID id, String iName){
+        return shelterDao.getPriority(id, iName);
+    }
+
+    public int changePrior(UUID id, String iName, int priority){
+        return shelterDao.changePriority(id, iName, priority);
     }
 
 }

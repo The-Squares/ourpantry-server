@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.congapp.ShelterInv.model.Item;
 import com.congapp.ShelterInv.model.Shelter;
+import com.congapp.ShelterInv.model.Item.Level;
 import com.congapp.ShelterInv.service.ShelterService;
 
 @RequestMapping("api/v1/shelter")
@@ -48,24 +50,38 @@ public class ShelterController {
         return shelterService.removeShelter(id);
     }
 
+    @GetMapping(path = "{id}/item")
+    public List<Item> getItemsByID(@PathVariable UUID id, @RequestBody Item item){
+        return shelterService.getItems(id);
+    }
+
     @PostMapping(path = "{id}/item")
-    public int addItemById(@PathVariable UUID id, @RequestBody Item item){
+    public int addItemByID(@PathVariable UUID id, @RequestBody Item item){
         return shelterService.addItem(id, item);
     }
 
     @DeleteMapping(path = "{id}/item/{iName}")
-    public int removeItemById(@PathVariable UUID id, @PathVariable String iName){
+    public int removeItemByID(@PathVariable UUID id, @PathVariable String iName){
         return shelterService.removeItem(id, iName);
     }
 
     @PutMapping (path = "{id}/item/{iName}/add")
-    public int addItemQuanityByOne(@PathVariable UUID id, @PathVariable String iName){
+    public int addItemQuantityByOne(@PathVariable UUID id, @PathVariable String iName){
         return shelterService.addQuant(id, iName);
     }
 
     @PutMapping(path = "{id}/item/{iName}/sub")
-    public int subItemQuanityByOne(@PathVariable UUID id, @PathVariable String iName){
+    public int subItemQuantityByOne(@PathVariable UUID id, @PathVariable String iName){
         return shelterService.minQuant(id, iName);
     }
 
+    @GetMapping(path = "{id}/item/{iName}/priority")
+    public Level getPriority(@PathVariable UUID id, @PathVariable String iName){
+        return shelterService.getPrior(id, iName);
+    }
+
+    @PutMapping(path = "{id}/item/{iName}/priority")
+    public int changePriority(@PathVariable UUID id, @PathVariable String iName, @RequestParam int priority){
+        return shelterService.changePrior(id, iName, priority);
+    }
 }

@@ -49,7 +49,7 @@ public class CustomerService {
         return customerDao.subBalanceById(id, balance);
     }
         
-    public int buyItemById (UUID id, UUID mID, String iName){
+    public int buyItemByName (UUID id, UUID mID, String iName){
         return customerDao.buyItem(id, mID, iName);
     }
 

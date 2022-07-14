@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
 import com.congapp.ShelterInv.model.Item;
+import com.congapp.ShelterInv.model.Item.Level;
 import com.congapp.ShelterInv.model.Shelter;
 
 @Repository("shelDao")
@@ -42,6 +43,13 @@ public class ShelterDataAccessService implements ShelterDao{
         return 1;
     }
 
+    
+    @Override
+    public List<Item> selectAllItems(UUID id) {
+        if (selectShelterById(id) == null) return null;
+        return selectShelterById(id).getOffers();
+    }
+
     @Override
     public int addShelterItem(UUID id, Item item) {
         if (selectShelterById(id) == null) return 0;
@@ -70,4 +78,18 @@ public class ShelterDataAccessService implements ShelterDao{
         return 0;
     }
 
+
+    @Override
+    public Level getPriority(UUID id, String iName) {
+        if (selectShelterById(id).getItemByName(iName) != null)
+            return selectShelterById(id).getItemByName(iName).getPriority();    
+        return null;
+    }
+
+    @Override
+    public int changePriority(UUID id, String iName, int priority) {
+        if (selectShelterById(id).getItemByName(iName) != null){ 
+            selectShelterById(id).getItemByName(iName).setPriority(priority); return 1;}
+        return 0;
+    }
 }

@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.congapp.ShelterInv.model.Item;
 import com.congapp.ShelterInv.model.Shelter;
+import com.congapp.ShelterInv.model.Item.Level;
 
 public interface ShelterDao {
     
@@ -21,6 +22,8 @@ public interface ShelterDao {
 
     int deleteShelterById(UUID id);
 
+    List<Item> selectAllItems();
+
     int addShelterItem(UUID id, Item item);
 
     int removeShelterItem(UUID id, String iName);
@@ -28,4 +31,8 @@ public interface ShelterDao {
     int addItemQuant (UUID id, String iName);
 
     int minItemQuant (UUID id, String iName);
+
+    Level getPriority(UUID id, String iName);
+
+    int changePriority(UUID id, String iName, int priority);
 }
