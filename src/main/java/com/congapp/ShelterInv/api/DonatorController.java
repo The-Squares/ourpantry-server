@@ -47,12 +47,12 @@ public class DonatorController {
         return personService.getPersonById(id);
     }
 
-    @DeleteMapping(path = "{id}")
+    @DeleteMapping(path = "{id}")//User PSW
     public int removePerson(@PathVariable UUID id){
         return personService.removePerson(id);
     }
 
-    @PutMapping(path = "{id}")
+    @PutMapping(path = "{id}")//User PSW
     public int changePersonName(@PathVariable UUID id, @RequestParam String name){
         return personService.changePersonName(id, name);
     }

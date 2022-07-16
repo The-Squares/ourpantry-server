@@ -13,7 +13,8 @@ public class Item {
     public enum Level {
         LOW,
         MEDIUM,
-        HIGH
+        HIGH,
+        NONE
     }
 
     private Level priority;
@@ -25,9 +26,10 @@ public class Item {
         this.name = name;
         this.quantity = quantity;
 
-        if (priority == 2) this.priority = Level.MEDIUM; 
-            else if (priority == 3) this.priority = Level.HIGH; 
-                else this.priority = Level.LOW;
+        if (priority == 1) this.priority = Level.LOW;
+            else if (priority == 2) this.priority = Level.MEDIUM; 
+                else if (priority == 3) this.priority = Level.HIGH;
+                    else this.priority = Level.NONE;
     }
 
     public String getName(){
@@ -51,8 +53,9 @@ public class Item {
     }
 
     public void setPriority(int priority){
-        if (priority == 2) this.priority = Level.MEDIUM; 
-            else if (priority == 3) this.priority = Level.HIGH; 
-                else this.priority = Level.LOW;
+        if (priority == 1) this.priority = Level.LOW;
+            else if (priority == 2) this.priority = Level.MEDIUM; 
+                else if (priority == 3) this.priority = Level.HIGH;
+                    else this.priority = Level.NONE;
     }
 }

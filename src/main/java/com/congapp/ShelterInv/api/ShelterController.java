@@ -45,32 +45,32 @@ public class ShelterController {
         return shelterService.getShelterById(id);
     }
 
-    @DeleteMapping(path = "{id}")
+    @DeleteMapping(path = "{id}") //Shelter PSW
     public int removeShelter(@PathVariable UUID id){
         return shelterService.removeShelter(id);
     }
 
-    @GetMapping(path = "{id}/item")
+    @GetMapping(path = "{id}/item") //Shelter PSW
     public List<Item> getItemsByID(@PathVariable UUID id, @RequestBody Item item){
         return shelterService.getItems(id);
     }
 
-    @PostMapping(path = "{id}/item")
+    @PostMapping(path = "{id}/item") //Shelter PSW
     public int addItemByID(@PathVariable UUID id, @RequestBody Item item){
         return shelterService.addItem(id, item);
     }
 
-    @DeleteMapping(path = "{id}/item/{iName}")
+    @DeleteMapping(path = "{id}/item/{iName}") //Shelter PSW
     public int removeItemByID(@PathVariable UUID id, @PathVariable String iName){
         return shelterService.removeItem(id, iName);
     }
 
-    @PutMapping (path = "{id}/item/{iName}/add")
+    @PutMapping (path = "{id}/item/{iName}/add") //Shelter PSW
     public int addItemQuantityByOne(@PathVariable UUID id, @PathVariable String iName){
         return shelterService.addQuant(id, iName);
     }
 
-    @PutMapping(path = "{id}/item/{iName}/sub")
+    @PutMapping(path = "{id}/item/{iName}/sub") //Shelter PSW
     public int subItemQuantityByOne(@PathVariable UUID id, @PathVariable String iName){
         return shelterService.minQuant(id, iName);
     }
@@ -80,7 +80,7 @@ public class ShelterController {
         return shelterService.getPrior(id, iName);
     }
 
-    @PutMapping(path = "{id}/item/{iName}/priority")
+    @PutMapping(path = "{id}/item/{iName}/priority") //Shelter PSW
     public int changePriority(@PathVariable UUID id, @PathVariable String iName, @RequestParam int priority){
         return shelterService.changePrior(id, iName, priority);
     }

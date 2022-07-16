@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ShelterInventoryBackendApplication {
+public class ShelterInvApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ShelterInventoryBackendApplication.class, args);
+		SpringApplication.run(ShelterInvApplication.class, args);
 	}
 
 }
