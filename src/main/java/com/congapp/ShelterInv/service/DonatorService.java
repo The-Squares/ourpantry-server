@@ -40,8 +40,8 @@ public class DonatorService {
         donatorDao.findById(id).get().setName(name);
     }
 
-    public void getPassword (String id){
-        donatorDao.findById(id).get().getPassword();
+    public String getPassword (String id){
+        return donatorDao.findById(id).get().getPassword();
     }
 
 }
