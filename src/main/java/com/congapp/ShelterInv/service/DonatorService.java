@@ -1,7 +1,7 @@
 package com.congapp.ShelterInv.service;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,24 +20,28 @@ public class DonatorService {
         this.donatorDao = donatorDao;
     }
     
-    public int addPerson (Donator donator){
-        return donatorDao.insertPerson(donator);
+    public Donator addPerson (Donator donator){
+        return donatorDao.insert(donator);
     }
 
     public List<Donator> getAllPeople(){
-        return donatorDao.selectAllPeople();
+        return donatorDao.findAll();
     }
 
-    public Donator getPersonById(UUID id){
-        return donatorDao.selectPersonById(id);
+    public Optional<Donator> getPersonById(String id){
+        return donatorDao.findById(id);
     }
 
-    public int removePerson (UUID id){
-        return donatorDao.deletePersonById(id);
+    public void removePerson (String id){
+        donatorDao.deleteById(id);
     }
 
-    public int changePersonName (UUID id, String name){
-        return donatorDao.updatePersonName(id, name);
+    public void changePersonName (String id, String name){
+        donatorDao.findById(id).get().setName(name);
+    }
+
+    public void getPassword (String id){
+        donatorDao.findById(id).get().getPassword();
     }
 
 }

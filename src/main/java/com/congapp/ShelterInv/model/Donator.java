@@ -2,27 +2,26 @@ package com.congapp.ShelterInv.model;
 
 import java.util.UUID;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Document
 public class Donator {
     
-    private final UUID id;
+    @Id
+    private String id;
     private String name;
     private String email;
     private String password;
 
-    public Donator (@JsonProperty("id") UUID id, 
-                   @JsonProperty("name") String name,
-                   @JsonProperty("email") String email,
-                   @JsonProperty("password") String password){
-        this.id = id;
+    public Donator (String name,
+                   String email,
+                   String password){
         this.name = name;
         this.email = email;
         this.password = password;
-    }
-
-    public UUID getId(){
-        return id;
     }
 
     public String getName() {

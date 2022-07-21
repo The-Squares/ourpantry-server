@@ -4,31 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Document
 public class Shelter {
     
-    private final UUID id;
-    private final String name;
-    private final String email;
-    private final String address;
-    private final String password;
+    @Id
+    private String id;
+    private String name;
+    @Indexed(unique = true) private String email;
+    private String address;
+    private String password;
     private List<Item> offers = new ArrayList<>();
 
-    public Shelter (@JsonProperty("id") UUID id, 
-                   @JsonProperty("name") String name,
-                   @JsonProperty("email") String email,
-                   @JsonProperty("address") String address,
-                   @JsonProperty("password") String password){
-        this.id = id;
+    public Shelter (String name,
+                    String email,
+                    String address,
+                    String password){
         this.name = name;
         this.email = email;
         this.address = address;
         this.password = password;
-    }
-
-    public UUID getId(){
-        return id;
     }
 
     public String getName() { return name; }

@@ -1,7 +1,7 @@
 package com.congapp.ShelterInv.api;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,47 +41,47 @@ public class ShelterController {
     }
 
     @GetMapping(path = "{id}")
-    public Shelter getShelterByID(@PathVariable UUID id){
+    public Optional<Shelter> getShelterByID(@PathVariable String id){
         return shelterService.getShelterById(id);
     }
 
     @DeleteMapping(path = "{id}") //Shelter PSW
-    public int removeShelter(@PathVariable UUID id){
-        return shelterService.removeShelter(id);
+    public void removeShelter(@PathVariable String id){
+        shelterService.removeShelter(id);
     }
 
     @GetMapping(path = "{id}/item") //Shelter PSW
-    public List<Item> getItemsByID(@PathVariable UUID id, @RequestBody Item item){
+    public List<Item> getItemsByID(@PathVariable String id, @RequestBody Item item){
         return shelterService.getItems(id);
     }
 
     @PostMapping(path = "{id}/item") //Shelter PSW
-    public int addItemByID(@PathVariable UUID id, @RequestBody Item item){
-        return shelterService.addItem(id, item);
+    public void addItemByID(@PathVariable String id, @RequestBody Item item){
+        shelterService.addItem(id, item);
     }
 
     @DeleteMapping(path = "{id}/item/{iName}") //Shelter PSW
-    public int removeItemByID(@PathVariable UUID id, @PathVariable String iName){
-        return shelterService.removeItem(id, iName);
+    public void removeItemByID(@PathVariable String id, @PathVariable String iName){
+        shelterService.removeItem(id, iName);
     }
 
     @PutMapping (path = "{id}/item/{iName}/add") //Shelter PSW
-    public int addItemQuantityByOne(@PathVariable UUID id, @PathVariable String iName){
-        return shelterService.addQuant(id, iName);
+    public void addItemQuantityByOne(@PathVariable String id, @PathVariable String iName){
+        shelterService.addQuant(id, iName);
     }
 
     @PutMapping(path = "{id}/item/{iName}/sub") //Shelter PSW
-    public int subItemQuantityByOne(@PathVariable UUID id, @PathVariable String iName){
-        return shelterService.minQuant(id, iName);
+    public void subItemQuantityByOne(@PathVariable String id, @PathVariable String iName){
+        shelterService.minQuant(id, iName);
     }
 
     @GetMapping(path = "{id}/item/{iName}/priority")
-    public Level getPriority(@PathVariable UUID id, @PathVariable String iName){
+    public Level getPriority(@PathVariable String id, @PathVariable String iName){
         return shelterService.getPrior(id, iName);
     }
 
     @PutMapping(path = "{id}/item/{iName}/priority") //Shelter PSW
-    public int changePriority(@PathVariable UUID id, @PathVariable String iName, @RequestParam int priority){
-        return shelterService.changePrior(id, iName, priority);
+    public void changePriority(@PathVariable String id, @PathVariable String iName, @RequestParam int priority){
+        shelterService.changePrior(id, iName, priority);
     }
 }

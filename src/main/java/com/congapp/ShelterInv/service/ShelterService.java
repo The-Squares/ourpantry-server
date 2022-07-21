@@ -1,6 +1,7 @@
 package com.congapp.ShelterInv.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,48 +23,52 @@ public class ShelterService {
         this.shelterDao = shelterDao;
     }
     
-    public int addShelter (Shelter shelter){
-        return shelterDao.insertShelter(shelter);
+    public Shelter addShelter (Shelter shelter){
+        return shelterDao.insert(shelter);
     }
 
     public List<Shelter> getAllShelters(){
-        return shelterDao.selectAllShelters();
+        return shelterDao.findAll();
     }
 
-    public Shelter getShelterById(UUID id){
-        return shelterDao.selectShelterById(id);
+    public Optional<Shelter> getShelterById(String id){
+        return shelterDao.findById(id);
     }
 
-    public int removeShelter (UUID id){
-        return shelterDao.deleteShelterById(id);
+    public void removeShelter (String id){
+        shelterDao.deleteById(id);
     }
 
-    public List<Item> getItems(UUID id){
-        return shelterDao.selectAllItems(id);
+    public List<Item> getItems(String id){
+        return shelterDao.findById(id).get().getOffers();
     }
 
-    public int addItem(UUID id, Item item){
-        return shelterDao.addShelterItem(id, item);
+    public String getPassword (String id){
+        return shelterDao.findById(id).get().getPassword();
     }
 
-    public int removeItem(UUID id, String iName){
-        return shelterDao.removeShelterItem(id, iName);
+    public void addItem(String id, Item item){
+        shelterDao.findById(id).get().addItem(item);
     }
 
-    public int addQuant(UUID id, String iName){
-        return shelterDao.addItemQuant(id, iName);
+    public void removeItem(String id, String iName){
+        shelterDao.findById(id).get().removeItemByName(iName);
     }
 
-    public int minQuant(UUID id, String iName){
-        return shelterDao.minItemQuant(id, iName);
+    public void addQuant(String id, String iName){
+        shelterDao.findById(id).get().getItemByName(iName).addQuant();
     }
 
-    public Level getPrior(UUID id, String iName){
-        return shelterDao.getPriority(id, iName);
+    public void minQuant(String id, String iName){
+        shelterDao.findById(id).get().getItemByName(iName).minQuant();;
     }
 
-    public int changePrior(UUID id, String iName, int priority){
-        return shelterDao.changePriority(id, iName, priority);
+    public Level getPrior(String id, String iName){
+        return shelterDao.findById(id).get().getItemByName(iName).getPriority();
+    }
+
+    public void changePrior(String id, String iName, int priority){
+        shelterDao.findById(id).get().getItemByName(iName).setPriority(priority);
     }
 
 }

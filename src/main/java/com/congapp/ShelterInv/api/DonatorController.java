@@ -2,6 +2,7 @@ package com.congapp.ShelterInv.api;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,18 +44,19 @@ public class DonatorController {
     }
 
     @GetMapping(path = "{id}")
-    public Donator getPersonByID(@PathVariable UUID id){
+    public Optional<Donator> getPersonByID(@PathVariable String id){
         return personService.getPersonById(id);
     }
 
     @DeleteMapping(path = "{id}")//User PSW
-    public int removePerson(@PathVariable UUID id){
-        return personService.removePerson(id);
+    public void removePerson(@PathVariable String id){
+        personService.removePerson(id);
     }
 
     @PutMapping(path = "{id}")//User PSW
-    public int changePersonName(@PathVariable UUID id, @RequestParam String name){
-        return personService.changePersonName(id, name);
+    public void changePersonName(@PathVariable String id, @RequestParam String name){
+        personService.changePersonName(id, name);
     }
 
 }
+ 

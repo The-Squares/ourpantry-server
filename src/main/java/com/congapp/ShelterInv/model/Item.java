@@ -20,9 +20,9 @@ public class Item {
     private Level priority;
       
 
-    public Item(@JsonProperty("name")  String name, 
-                @JsonProperty("quantity")  int quantity,
-                @JsonProperty("priority")  int priority){
+    public Item(String name, 
+                int quantity,
+                int priority){
         this.name = name;
         this.quantity = quantity;
 
