@@ -1,35 +1,24 @@
 package com.congapp.ShelterInv.model;
 
-import java.util.UUID;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+@Document
 public class Item {
     
-
+    @Id
+    private String id;
+    
     private String name;
     private int quantity;
-
-    public enum Level {
-        LOW,
-        MEDIUM,
-        HIGH,
-        NONE
-    }
-
-    private Level priority;
-      
+    private int priority;
 
     public Item(String name, 
                 int quantity,
                 int priority){
         this.name = name;
         this.quantity = quantity;
-
-        if (priority == 1) this.priority = Level.LOW;
-            else if (priority == 2) this.priority = Level.MEDIUM; 
-                else if (priority == 3) this.priority = Level.HIGH;
-                    else this.priority = Level.NONE;
+        this.priority = priority;
     }
 
     public String getName(){
@@ -48,14 +37,11 @@ public class Item {
         quantity -= 1;
     }
 
-    public Level getPriority(){
+    public int getPriority(){
         return priority;
     }
 
     public void setPriority(int priority){
-        if (priority == 1) this.priority = Level.LOW;
-            else if (priority == 2) this.priority = Level.MEDIUM; 
-                else if (priority == 3) this.priority = Level.HIGH;
-                    else this.priority = Level.NONE;
+        this.priority = priority;
     }
 }

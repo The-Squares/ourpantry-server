@@ -2,15 +2,16 @@ package com.congapp.ShelterInv.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Document
+@Document("shelter")
 public class Shelter {
     
     @Id
@@ -19,6 +20,7 @@ public class Shelter {
     @Indexed(unique = true) private String email;
     private String address;
     private String password;
+
     private List<Item> offers = new ArrayList<>();
 
     public Shelter (String name,

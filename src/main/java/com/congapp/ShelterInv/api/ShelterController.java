@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.congapp.ShelterInv.model.Item;
 import com.congapp.ShelterInv.model.Shelter;
-import com.congapp.ShelterInv.model.Item.Level;
 import com.congapp.ShelterInv.service.ShelterService;
 
 @RequestMapping("api/v1/shelter")
@@ -46,42 +45,43 @@ public class ShelterController {
     }
 
     @DeleteMapping(path = "{id}") //Shelter PSW
-    public void removeShelter(@PathVariable String id){
-        shelterService.removeShelter(id);
+    public void removeShelter(@PathVariable String id, @RequestBody String password){
+        if (password.equals(shelterService.getPassword(id))) shelterService.removeShelter(id);
     }
 
     @GetMapping(path = "{id}/item") //Shelter PSW
-    public List<Item> getItemsByID(@PathVariable String id, @RequestBody Item item){
-        return shelterService.getItems(id);
+    public List<Item> getItemsByID(@PathVariable String id, @RequestBody Item item, @RequestBody String password){
+        if (password.equals(shelterService.getPassword(id))) return shelterService.getItems(id);
+        return null;
     }
 
     @PostMapping(path = "{id}/item") //Shelter PSW
-    public void addItemByID(@PathVariable String id, @RequestBody Item item){
-        shelterService.addItem(id, item);
+    public void addItemByID(@PathVariable String id, @RequestBody Item item, @RequestBody String password){
+        if (password.equals(shelterService.getPassword(id))) shelterService.addItem(id, item);
     }
 
     @DeleteMapping(path = "{id}/item/{iName}") //Shelter PSW
-    public void removeItemByID(@PathVariable String id, @PathVariable String iName){
-        shelterService.removeItem(id, iName);
+    public void removeItemByID(@PathVariable String id, @PathVariable String iName, @RequestBody String password){
+        if (password.equals(shelterService.getPassword(id))) shelterService.removeItem(id, iName);
     }
 
     @PutMapping (path = "{id}/item/{iName}/add") //Shelter PSW
-    public void addItemQuantityByOne(@PathVariable String id, @PathVariable String iName){
-        shelterService.addQuant(id, iName);
+    public void addItemQuantityByOne(@PathVariable String id, @PathVariable String iName, @RequestBody String password){
+        if (password.equals(shelterService.getPassword(id))) shelterService.addQuant(id, iName);
     }
 
     @PutMapping(path = "{id}/item/{iName}/sub") //Shelter PSW
-    public void subItemQuantityByOne(@PathVariable String id, @PathVariable String iName){
-        shelterService.minQuant(id, iName);
+    public void subItemQuantityByOne(@PathVariable String id, @PathVariable String iName, @RequestBody String password){
+        if (password.equals(shelterService.getPassword(id))) shelterService.minQuant(id, iName);
     }
 
     @GetMapping(path = "{id}/item/{iName}/priority")
-    public Level getPriority(@PathVariable String id, @PathVariable String iName){
+    public int getPriority(@PathVariable String id, @PathVariable String iName){
         return shelterService.getPrior(id, iName);
     }
 
     @PutMapping(path = "{id}/item/{iName}/priority") //Shelter PSW
-    public void changePriority(@PathVariable String id, @PathVariable String iName, @RequestParam int priority){
-        shelterService.changePrior(id, iName, priority);
+    public void changePriority(@PathVariable String id, @PathVariable String iName, @RequestBody int priority, @RequestBody String password){
+        if (password.equals(shelterService.getPassword(id))) shelterService.changePrior(id, iName, priority);
     }
 }

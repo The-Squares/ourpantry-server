@@ -1,13 +1,9 @@
 package com.congapp.ShelterInv.model;
 
-import java.util.UUID;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-@Document
+@Document("donator")
 public class Donator {
     
     @Id

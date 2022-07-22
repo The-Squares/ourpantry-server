@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.congapp.ShelterInv.dao.ShelterDao;
 import com.congapp.ShelterInv.model.Item;
 import com.congapp.ShelterInv.model.Shelter;
-import com.congapp.ShelterInv.model.Item.Level;
 
 @Service
 public class ShelterService {
@@ -48,27 +47,37 @@ public class ShelterService {
     }
 
     public void addItem(String id, Item item){
-        shelterDao.findById(id).get().addItem(item);
+        Shelter shelter = shelterDao.findById(id).get();
+        shelter.addItem(item);
+        shelterDao.save(shelter);
     }
 
     public void removeItem(String id, String iName){
-        shelterDao.findById(id).get().removeItemByName(iName);
+        Shelter shelter = shelterDao.findById(id).get();
+        shelter.removeItemByName(iName);
+        shelterDao.save(shelter);
     }
 
     public void addQuant(String id, String iName){
-        shelterDao.findById(id).get().getItemByName(iName).addQuant();
+        Shelter shelter = shelterDao.findById(id).get();
+        shelter.getItemByName(iName).addQuant();
+        shelterDao.save(shelter);
     }
 
     public void minQuant(String id, String iName){
-        shelterDao.findById(id).get().getItemByName(iName).minQuant();;
+        Shelter shelter = shelterDao.findById(id).get();
+        shelter.getItemByName(iName).minQuant();
+        shelterDao.save(shelter);
     }
 
-    public Level getPrior(String id, String iName){
+    public int getPrior(String id, String iName){
         return shelterDao.findById(id).get().getItemByName(iName).getPriority();
     }
 
     public void changePrior(String id, String iName, int priority){
-        shelterDao.findById(id).get().getItemByName(iName).setPriority(priority);
+        Shelter shelter = shelterDao.findById(id).get();
+        shelter.getItemByName(iName).setPriority(priority);
+        shelterDao.save(shelter);
     }
 
 }
