@@ -20,6 +20,7 @@ public class Shelter {
     @Indexed(unique = true) private String email;
     private String address;
     private String password;
+    private Location geoLocation;
 
     private List<Item> offers = new ArrayList<>();
 

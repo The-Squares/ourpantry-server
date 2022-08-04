@@ -4,8 +4,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.management.Query;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.geo.Circle;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
 import com.congapp.ShelterInv.dao.ShelterDao;
@@ -82,6 +90,19 @@ public class ShelterService {
         Shelter shelter = shelterDao.findById(id).get();
         shelter.getItemByName(iName).setPriority(priority);
         shelterDao.save(shelter);
+    }
+
+    public List<Shelter> findByDistance(float latitude, double longitude, int distance){
+        Point baseCords = new Point (latitude, longitude);
+
+        Distance radius = new Distance (distance, Metrics.MILES);
+
+        Circle area = new Circle(baseCords, radius);
+
+        Query query = new Query();
+        query.addCriteria(Criteria.where("address.geoLocation").withinSphere(area));
+
+        return MongoOperations.find(query, Shelter.class);
     }
 
 }

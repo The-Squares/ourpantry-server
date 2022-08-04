@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.data.geo.Point;
 
-import com.congapp.ShelterInv.dao.Cords;
-import com.congapp.ShelterInv.dao.PositionResponse;
 import com.congapp.ShelterInv.model.Item;
+import com.congapp.ShelterInv.model.PositionResponse;
 import com.congapp.ShelterInv.model.Shelter;
 import com.congapp.ShelterInv.service.ShelterService;
 import com.mongodb.client.model.geojson.Position;
@@ -95,11 +94,11 @@ public class ShelterController {
     }
 
     @RequestMapping("{id}/cords")
-    public Cords getCords(@PathVariable String id){
+    public Point getCords(@PathVariable String id){
         RestTemplate restTemplate = new RestTemplate();;
 
         PositionResponse posRes = restTemplate.getForObject("http://api.positionstack.com/v1/forward?access_key=" + apiKey + "&query=" + shelterService.getAddress(id), PositionResponse.class);
-        Cords cord = posRes.getData().get(0);
+        Point cord = posRes.getData().get(0);
         return cord;
     }
 
