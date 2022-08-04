@@ -1,6 +1,7 @@
 package com.congapp.ShelterInv.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("donator")
@@ -9,6 +10,7 @@ public class Donator {
     @Id
     private String id;
     private String name;
+    @Indexed(unique = true)
     private String email;
     private String password;
 

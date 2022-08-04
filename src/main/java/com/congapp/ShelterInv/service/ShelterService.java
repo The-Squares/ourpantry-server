@@ -46,6 +46,10 @@ public class ShelterService {
         return shelterDao.findById(id).get().getPassword();
     }
 
+    public String getAddress(String id){
+        return shelterDao.findById(id).get().getAddress();
+    }
+
     public void addItem(String id, Item item){
         Shelter shelter = shelterDao.findById(id).get();
         shelter.addItem(item);
