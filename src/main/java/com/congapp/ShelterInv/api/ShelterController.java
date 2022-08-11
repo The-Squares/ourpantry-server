@@ -1,11 +1,8 @@
 package com.congapp.ShelterInv.api;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,11 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.data.geo.Point;
 
+import com.congapp.ShelterInv.model.BarItem;
 import com.congapp.ShelterInv.model.Item;
-import com.congapp.ShelterInv.model.PositionResponse;
 import com.congapp.ShelterInv.model.Shelter;
 import com.congapp.ShelterInv.service.ShelterService;
-import com.mongodb.client.model.geojson.Position;
 
 @RequestMapping("api/v1/shelter")
 @RestController
@@ -48,7 +44,7 @@ public class ShelterController {
     }
 
     @GetMapping(path = "{id}")
-    public Optional<Shelter> getShelterByID(@PathVariable String id){
+    public Shelter getShelterByID(@PathVariable String id){
         return shelterService.getShelterById(id);
     }
 
@@ -59,8 +55,7 @@ public class ShelterController {
 
     @GetMapping(path = "{id}/item") //Shelter PSW
     public List<Item> getItemsByID(@PathVariable String id, @RequestBody Item item, @RequestBody String password){
-        if (password.equals(shelterService.getPassword(id))) return shelterService.getItems(id);
-        return null;
+        return shelterService.getItems(id);
     }
 
     @PostMapping(path = "{id}/item") //Shelter PSW
@@ -93,13 +88,20 @@ public class ShelterController {
         if (password.equals(shelterService.getPassword(id))) shelterService.changePrior(id, iName, priority);
     }
 
-    @RequestMapping("{id}/cords")
+    @GetMapping("{id}/cords")
     public Point getCords(@PathVariable String id){
-        RestTemplate restTemplate = new RestTemplate();;
+        return shelterService.getCordsById(id);
+    }
 
-        PositionResponse posRes = restTemplate.getForObject("http://api.positionstack.com/v1/forward?access_key=" + apiKey + "&query=" + shelterService.getAddress(id), PositionResponse.class);
-        Point cord = posRes.getData().get(0);
-        return cord;
+    @RequestMapping("barcode")
+    public BarItem getItemByBarCode(@RequestParam String UPC){
+        RestTemplate restTemplate = new RestTemplate();
+
+        if ((restTemplate.getForObject("https://www.brocade.io/api/items/" + UPC, BarItem.class)) != null){
+            return restTemplate.getForObject("https://www.brocade.io/api/items/" + UPC, BarItem.class);
+        }
+
+        return null;
     }
 
 }

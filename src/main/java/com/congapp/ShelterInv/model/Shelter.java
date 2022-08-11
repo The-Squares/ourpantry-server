@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.ReadOnlyProperty;
+import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
-
 
 @Document("shelter")
 public class Shelter {
@@ -20,7 +17,7 @@ public class Shelter {
     @Indexed(unique = true) private String email;
     private String address;
     private String password;
-    private Location geoLocation;
+    private Point geoLocation;
 
     private List<Item> offers = new ArrayList<>();
 
@@ -38,6 +35,18 @@ public class Shelter {
     public String getEmail() { return email; }
     public String getAddress() { return address; }
     public String getPassword() { return password; }
+
+    public void setPassword(String password){
+        this.password = password;
+    }
+
+    public void setCords(Point cord){
+        this.geoLocation = cord;
+    }
+
+    public Point getCords(){
+        return geoLocation;
+    }
 
     public void addItem(Item item){
         offers.add(item);

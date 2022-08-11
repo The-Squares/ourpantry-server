@@ -37,6 +37,10 @@ public class Item {
         quantity -= 1;
     }
 
+    public int getQuant(){
+        return quantity;
+    }
+
     public int getPriority(){
         return priority;
     }
