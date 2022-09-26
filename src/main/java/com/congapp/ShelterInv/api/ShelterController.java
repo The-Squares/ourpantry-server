@@ -17,6 +17,7 @@ import org.springframework.data.geo.Point;
 
 import com.congapp.ShelterInv.model.BarItem;
 import com.congapp.ShelterInv.model.Item;
+import com.congapp.ShelterInv.model.ItemPlus;
 import com.congapp.ShelterInv.model.Shelter;
 import com.congapp.ShelterInv.service.ShelterService;
 
@@ -54,13 +55,13 @@ public class ShelterController {
     }
 
     @GetMapping(path = "{id}/item") //Shelter PSW
-    public List<Item> getItemsByID(@PathVariable String id, @RequestBody Item item, @RequestBody String password){
+    public List<Item> getItemsByID(@PathVariable String id, @RequestBody String password){
         return shelterService.getItems(id);
     }
 
     @PostMapping(path = "{id}/item") //Shelter PSW
-    public void addItemByID(@PathVariable String id, @RequestBody Item item, @RequestBody String password){
-        if (password.equals(shelterService.getPassword(id))) shelterService.addItem(id, item);
+    public void addItemByID(@PathVariable String id, @RequestBody ItemPlus item){
+        if (item.getPassword().equals(shelterService.getPassword(id))) shelterService.addItem(id, item.getItem());
     }
 
     @DeleteMapping(path = "{id}/item/{iName}") //Shelter PSW
@@ -84,7 +85,7 @@ public class ShelterController {
     }
 
     @PutMapping(path = "{id}/item/{iName}/priority") //Shelter PSW
-    public void changePriority(@PathVariable String id, @PathVariable String iName, @RequestBody int priority, @RequestBody String password){
+    public void changePriority(@PathVariable String id, @PathVariable String iName, @RequestParam int priority, @RequestBody String password){
         if (password.equals(shelterService.getPassword(id))) shelterService.changePrior(id, iName, priority);
     }
 

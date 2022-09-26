@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.congapp.ShelterInv.model.Donator;
+import com.congapp.ShelterInv.model.Item;
 import com.congapp.ShelterInv.model.Shelter;
 import com.congapp.ShelterInv.service.DonatorService;
 import com.congapp.ShelterInv.service.ShelterService;
@@ -62,6 +63,11 @@ public class DonatorController {
     @GetMapping(path = "nearby-shelters")
     public List<Shelter> getNearbyShelters(@RequestParam float latitude, @RequestParam float longitude, @RequestParam int distance){
         return shelterService.findByDistance(latitude, longitude, distance);
+    }
+
+    @GetMapping(path = "inventory/{id}")
+    public List<Item> getItemsByID(@PathVariable String id, @RequestBody String password){
+        return shelterService.getDemandedItems(id);
     }
 
 }

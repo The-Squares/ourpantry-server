@@ -1,5 +1,6 @@
 package com.congapp.ShelterInv.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -76,6 +77,20 @@ public class ShelterService {
     public List<Item> getItems(String id){
         if (shelterDao.findById(id).isPresent()){
             return shelterDao.findById(id).get().getOffers();
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Item> getDemandedItems(String id){
+        List<Item> demanded = new ArrayList<Item>();
+        if (shelterDao.findById(id).isPresent()){
+            demanded = shelterDao.findById(id).get().getOffers();
+            for (int i = demanded.size() - 1; i >= 0; i--){
+                if (demanded.get(i).getPriority() == 0){
+                    demanded.remove(i);
+                }
+            }
+            return demanded;
         }
         return Collections.emptyList();
     }
