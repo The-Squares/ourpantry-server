@@ -18,6 +18,7 @@ import org.springframework.data.geo.Point;
 import com.congapp.ShelterInv.model.BarItem;
 import com.congapp.ShelterInv.model.Item;
 import com.congapp.ShelterInv.model.ItemPlus;
+import com.congapp.ShelterInv.model.Login;
 import com.congapp.ShelterInv.model.Shelter;
 import com.congapp.ShelterInv.service.ShelterService;
 
@@ -47,6 +48,11 @@ public class ShelterController {
     @GetMapping(path = "{id}")
     public Shelter getShelterByID(@PathVariable String id) {
         return shelterService.getShelterById(id);
+    }
+
+    @PostMapping(path = "login")
+    public Shelter loginShelter(@RequestBody Login loginInfo) {
+        return shelterService.loginShelter(loginInfo.getEmail(), loginInfo.getPassword());
     }
 
     @DeleteMapping(path = "{id}") // Shelter PSW

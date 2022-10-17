@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.congapp.ShelterInv.model.Donator;
 import com.congapp.ShelterInv.model.Item;
+import com.congapp.ShelterInv.model.Login;
 import com.congapp.ShelterInv.model.Shelter;
 import com.congapp.ShelterInv.service.DonatorService;
 import com.congapp.ShelterInv.service.ShelterService;
@@ -23,52 +24,59 @@ import com.congapp.ShelterInv.service.ShelterService;
 @RequestMapping("api/v1/donator")
 @RestController
 public class DonatorController {
-    
+
     private final DonatorService personService;
 
     @Autowired
     private final ShelterService shelterService;
 
     @Autowired
-    public DonatorController (DonatorService personService, ShelterService shelterService){
+    public DonatorController(DonatorService personService, ShelterService shelterService) {
         this.personService = personService;
         this.shelterService = shelterService;
     }
 
     @PostMapping
-    public void addPerson(@RequestBody Donator person){
+    public void addPerson(@RequestBody Donator person) {
         personService.addPerson(person);
     }
 
     @GetMapping
-    public List<Donator> getAllPeople(){
+    public List<Donator> getAllPeople() {
         return personService.getAllPeople();
     }
 
     @GetMapping(path = "{id}")
-    public Optional<Donator> getPersonByID(@PathVariable String id){
+    public Optional<Donator> getPersonByID(@PathVariable String id) {
         return personService.getPersonById(id);
     }
 
-    @DeleteMapping(path = "{id}")//User PSW
-    public void removePerson(@PathVariable String id, @RequestBody String password){
-        if (password.equals(personService.getPassword(id))) personService.removePerson(id);
+    @PostMapping(path = "login")
+    public Donator loginDonator(@RequestBody Login loginInfo) {
+        return personService.loginDonator(loginInfo.getEmail(), loginInfo.getPassword());
     }
 
-    @PutMapping(path = "{id}")//User PSW
-    public void changePersonName(@PathVariable String id, @RequestParam String name, @RequestBody String password){
-        if (password.equals(personService.getPassword(id))) personService.changePersonName(id, name);
+    @DeleteMapping(path = "{id}") // User PSW
+    public void removePerson(@PathVariable String id, @RequestBody String password) {
+        if (password.equals(personService.getPassword(id)))
+            personService.removePerson(id);
+    }
+
+    @PutMapping(path = "{id}") // User PSW
+    public void changePersonName(@PathVariable String id, @RequestParam String name, @RequestBody String password) {
+        if (password.equals(personService.getPassword(id)))
+            personService.changePersonName(id, name);
     }
 
     @GetMapping(path = "nearby-shelters")
-    public List<Shelter> getNearbyShelters(@RequestParam float latitude, @RequestParam float longitude, @RequestParam int distance){
+    public List<Shelter> getNearbyShelters(@RequestParam float latitude, @RequestParam float longitude,
+            @RequestParam int distance) {
         return shelterService.findByDistance(latitude, longitude, distance);
     }
 
     @GetMapping(path = "inventory/{id}")
-    public List<Item> getItemsByID(@PathVariable String id, @RequestBody String password){
+    public List<Item> getItemsByID(@PathVariable String id, @RequestBody String password) {
         return shelterService.getDemandedItems(id);
     }
 
 }
- 

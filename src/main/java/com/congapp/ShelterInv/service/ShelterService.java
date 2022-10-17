@@ -70,6 +70,15 @@ public class ShelterService {
         return null;
     }
 
+    public Shelter loginShelter(String email, String password) {
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        criteria.andOperator(Criteria.where("email").is(email), Criteria.where("password").is(password));
+        query.addCriteria(criteria);
+
+        return mongoOperations.findOne(query, Shelter.class);
+    }
+
     public void removeShelter(String id) {
         if (shelterDao.findById(id).isPresent()) {
             shelterDao.deleteById(id);
