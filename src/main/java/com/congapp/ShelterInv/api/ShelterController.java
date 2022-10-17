@@ -24,81 +24,90 @@ import com.congapp.ShelterInv.service.ShelterService;
 @RequestMapping("api/v1/shelter")
 @RestController
 public class ShelterController {
-    
+
     private final ShelterService shelterService;
 
     private String apiKey = "d663ed7fc61c7862407b3238545d9723";
 
     @Autowired
-    public ShelterController (ShelterService shelterService){
+    public ShelterController(ShelterService shelterService) {
         this.shelterService = shelterService;
     }
 
     @PostMapping
-    public void addShelter(@RequestBody Shelter shelter){
+    public void addShelter(@RequestBody Shelter shelter) {
         shelterService.addShelter(shelter);
     }
 
     @GetMapping
-    public List<Shelter> getAllShelters(){
+    public List<Shelter> getAllShelters() {
         return shelterService.getAllShelters();
     }
 
     @GetMapping(path = "{id}")
-    public Shelter getShelterByID(@PathVariable String id){
+    public Shelter getShelterByID(@PathVariable String id) {
         return shelterService.getShelterById(id);
     }
 
-    @DeleteMapping(path = "{id}") //Shelter PSW
-    public void removeShelter(@PathVariable String id, @RequestBody String password){
-        if (password.equals(shelterService.getPassword(id))) shelterService.removeShelter(id);
+    @DeleteMapping(path = "{id}") // Shelter PSW
+    public void removeShelter(@PathVariable String id, @RequestBody String password) {
+        if (password.equals(shelterService.getPassword(id)))
+            shelterService.removeShelter(id);
     }
 
-    @GetMapping(path = "{id}/item") //Shelter PSW
-    public List<Item> getItemsByID(@PathVariable String id, @RequestBody String password){
+    @GetMapping(path = "{id}/item") // Shelter PSW
+    public List<Item> getItemsByID(@PathVariable String id, @RequestParam String password) {
         return shelterService.getItems(id);
     }
 
-    @PostMapping(path = "{id}/item") //Shelter PSW
-    public void addItemByID(@PathVariable String id, @RequestBody ItemPlus item){
-        if (item.getPassword().equals(shelterService.getPassword(id))) shelterService.addItem(id, item.getItem());
+    @PostMapping(path = "{id}/item") // Shelter PSW
+    public void addItemByID(@PathVariable String id, @RequestBody ItemPlus item) {
+        if (item.getPassword().equals(shelterService.getPassword(id)))
+            shelterService.addItem(id, item.getItem());
     }
 
-    @DeleteMapping(path = "{id}/item/{iName}") //Shelter PSW
-    public void removeItemByID(@PathVariable String id, @PathVariable String iName, @RequestBody String password){
-        if (password.equals(shelterService.getPassword(id))) shelterService.removeItem(id, iName);
+    @DeleteMapping(path = "{id}/item/{iName}") // Shelter PSW
+    public void removeItemByID(@PathVariable String id, @PathVariable String iName, @RequestBody String password) {
+        if (password.equals(shelterService.getPassword(id)))
+            shelterService.removeItem(id, iName);
     }
 
-    @PutMapping (path = "{id}/item/{iName}/add") //Shelter PSW
-    public void addItemQuantityByOne(@PathVariable String id, @PathVariable String iName, @RequestBody String password){
-        if (password.equals(shelterService.getPassword(id))) shelterService.addQuant(id, iName);
+    @PutMapping(path = "{id}/item/{iName}/add") // Shelter PSW
+    public void addItemQuantityByOne(@PathVariable String id, @PathVariable String iName,
+            @RequestBody String password) {
+        if (password.equals(shelterService.getPassword(id)))
+            shelterService.addQuant(id, iName);
     }
 
-    @PutMapping(path = "{id}/item/{iName}/sub") //Shelter PSW
-    public void subItemQuantityByOne(@PathVariable String id, @PathVariable String iName, @RequestBody String password){
-        if (password.equals(shelterService.getPassword(id))) shelterService.minQuant(id, iName);
+    @PutMapping(path = "{id}/item/{iName}/sub") // Shelter PSW
+    public void subItemQuantityByOne(@PathVariable String id, @PathVariable String iName,
+            @RequestBody String password) {
+        if (password.equals(shelterService.getPassword(id)))
+            shelterService.minQuant(id, iName);
     }
 
     @GetMapping(path = "{id}/item/{iName}/priority")
-    public int getPriority(@PathVariable String id, @PathVariable String iName){
+    public int getPriority(@PathVariable String id, @PathVariable String iName) {
         return shelterService.getPrior(id, iName);
     }
 
-    @PutMapping(path = "{id}/item/{iName}/priority") //Shelter PSW
-    public void changePriority(@PathVariable String id, @PathVariable String iName, @RequestParam int priority, @RequestBody String password){
-        if (password.equals(shelterService.getPassword(id))) shelterService.changePrior(id, iName, priority);
+    @PutMapping(path = "{id}/item/{iName}/priority") // Shelter PSW
+    public void changePriority(@PathVariable String id, @PathVariable String iName, @RequestParam int priority,
+            @RequestBody String password) {
+        if (password.equals(shelterService.getPassword(id)))
+            shelterService.changePrior(id, iName, priority);
     }
 
     @GetMapping("{id}/cords")
-    public Point getCords(@PathVariable String id){
+    public Point getCords(@PathVariable String id) {
         return shelterService.getCordsById(id);
     }
 
     @RequestMapping("barcode")
-    public BarItem getItemByBarCode(@RequestParam String UPC){
+    public BarItem getItemByBarCode(@RequestParam String UPC) {
         RestTemplate restTemplate = new RestTemplate();
 
-        if ((restTemplate.getForObject("https://www.brocade.io/api/items/" + UPC, BarItem.class)) != null){
+        if ((restTemplate.getForObject("https://www.brocade.io/api/items/" + UPC, BarItem.class)) != null) {
             return restTemplate.getForObject("https://www.brocade.io/api/items/" + UPC, BarItem.class);
         }
 

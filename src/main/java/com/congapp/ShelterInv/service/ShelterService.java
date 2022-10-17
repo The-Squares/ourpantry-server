@@ -38,17 +38,19 @@ public class ShelterService {
     private MongoOperations mongoOperations;
 
     @Autowired
-    public ShelterService (@Qualifier("shelDao") ShelterDao shelterDao){
+    public ShelterService(@Qualifier("shelDao") ShelterDao shelterDao) {
         this.shelterDao = shelterDao;
         // this.passwordEncoder = new BCryptPasswordEncoder();
     }
-    
-    public Shelter addShelter (Shelter shelter){
+
+    public Shelter addShelter(Shelter shelter) {
         // String password = passwordEncoder.encode(shelter.getPassword());
         // shelter.setPassword(password);
 
-        PositionResponse posRes = restTemplate.getForObject("http://api.positionstack.com/v1/forward?access_key=" + apiKey + "&query=" + shelter.getAddress(), PositionResponse.class);
-        
+        PositionResponse posRes = restTemplate.getForObject(
+                "http://api.positionstack.com/v1/forward?access_key=" + apiKey + "&query=" + shelter.getAddress(),
+                PositionResponse.class);
+
         Location cord = posRes.getData().get(0);
         Point cordinates = new Point(cord.getLongitude(), cord.getLatitude());
 
@@ -57,36 +59,36 @@ public class ShelterService {
         return shelterDao.insert(shelter);
     }
 
-    public List<Shelter> getAllShelters(){
+    public List<Shelter> getAllShelters() {
         return shelterDao.findAll();
     }
 
-    public Shelter getShelterById(String id){
-        if (shelterDao.findById(id).isPresent()){
+    public Shelter getShelterById(String id) {
+        if (shelterDao.findById(id).isPresent()) {
             return shelterDao.findById(id).get();
         }
         return null;
     }
 
-    public void removeShelter (String id){
-        if (shelterDao.findById(id).isPresent()){
+    public void removeShelter(String id) {
+        if (shelterDao.findById(id).isPresent()) {
             shelterDao.deleteById(id);
         }
     }
 
-    public List<Item> getItems(String id){
-        if (shelterDao.findById(id).isPresent()){
+    public List<Item> getItems(String id) {
+        if (shelterDao.findById(id).isPresent()) {
             return shelterDao.findById(id).get().getOffers();
         }
         return Collections.emptyList();
     }
 
-    public List<Item> getDemandedItems(String id){
+    public List<Item> getDemandedItems(String id) {
         List<Item> demanded = new ArrayList<Item>();
-        if (shelterDao.findById(id).isPresent()){
+        if (shelterDao.findById(id).isPresent()) {
             demanded = shelterDao.findById(id).get().getOffers();
-            for (int i = demanded.size() - 1; i >= 0; i--){
-                if (demanded.get(i).getPriority() == 0){
+            for (int i = demanded.size() - 1; i >= 0; i--) {
+                if (demanded.get(i).getPriority() == 0) {
                     demanded.remove(i);
                 }
             }
@@ -95,77 +97,78 @@ public class ShelterService {
         return Collections.emptyList();
     }
 
-    public String getPassword (String id){
-        if (shelterDao.findById(id).isPresent()){
+    public String getPassword(String id) {
+        if (shelterDao.findById(id).isPresent()) {
             return shelterDao.findById(id).get().getPassword();
         }
         return null;
     }
 
-    public String getAddress(String id){
-        if (shelterDao.findById(id).isPresent()){
+    public String getAddress(String id) {
+        if (shelterDao.findById(id).isPresent()) {
             return shelterDao.findById(id).get().getAddress();
         }
         return null;
     }
 
-    public Point getCordsById(String id){
-        if (shelterDao.findById(id).isPresent()){
-        return shelterDao.findById(id).get().getCords();
+    public Point getCordsById(String id) {
+        if (shelterDao.findById(id).isPresent()) {
+            return shelterDao.findById(id).get().getCords();
         }
         return null;
     }
 
-    public void addItem(String id, Item item){
-        if (shelterDao.findById(id).isPresent()){
+    public void addItem(String id, Item item) {
+        if (shelterDao.findById(id).isPresent()) {
             Shelter shelter = shelterDao.findById(id).get();
             shelter.addItem(item);
             shelterDao.save(shelter);
         }
     }
 
-    public void removeItem(String id, String iName){
-        if (shelterDao.findById(id).isPresent()){
+    public void removeItem(String id, String iName) {
+        if (shelterDao.findById(id).isPresent()) {
             Shelter shelter = shelterDao.findById(id).get();
             shelter.removeItemByName(iName);
             shelterDao.save(shelter);
         }
     }
 
-    public void addQuant(String id, String iName){
-        if (shelterDao.findById(id).isPresent()){
+    public void addQuant(String id, String iName) {
+        if (shelterDao.findById(id).isPresent()) {
             Shelter shelter = shelterDao.findById(id).get();
             shelter.getItemByName(iName).addQuant();
             shelterDao.save(shelter);
         }
     }
 
-    public void minQuant(String id, String iName){
-        if (shelterDao.findById(id).isPresent()){
+    public void minQuant(String id, String iName) {
+        if (shelterDao.findById(id).isPresent()) {
             Shelter shelter = shelterDao.findById(id).get();
             shelter.getItemByName(iName).minQuant();
             shelterDao.save(shelter);
         }
     }
 
-    public int getPrior(String id, String iName){
-        if (shelterDao.findById(id).isPresent()) return shelterDao.findById(id).get().getItemByName(iName).getPriority();
+    public int getPrior(String id, String iName) {
+        if (shelterDao.findById(id).isPresent())
+            return shelterDao.findById(id).get().getItemByName(iName).getPriority();
         return 0;
     }
 
-    public void changePrior(String id, String iName, int priority){
-        if (shelterDao.findById(id).isPresent()){
+    public void changePrior(String id, String iName, int priority) {
+        if (shelterDao.findById(id).isPresent()) {
             Shelter shelter = shelterDao.findById(id).get();
             shelter.getItemByName(iName).setPriority(priority);
             shelterDao.save(shelter);
         }
     }
 
-    public List<Shelter> findByDistance(float latitude, float longitude, int distance){
+    public List<Shelter> findByDistance(float latitude, float longitude, int distance) {
 
-        Point baseCords = new Point (longitude, latitude);
+        Point baseCords = new Point(longitude, latitude);
 
-        Distance radius = new Distance (distance, Metrics.MILES);
+        Distance radius = new Distance(distance, Metrics.MILES);
 
         Circle area = new Circle(baseCords, radius);
 
