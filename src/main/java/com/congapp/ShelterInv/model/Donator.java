@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("donator")
 public class Donator {
-    
+
     @Id
     private String id;
     private String name;
@@ -14,29 +14,38 @@ public class Donator {
     private String email;
     private String password;
 
-    public Donator (String name,
-                   String email,
-                   String password){
+    public Donator(String name,
+            String email,
+            String password) {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public Donator() {
+        this.name = "";
+        this.email = "";
+        this.password = "";
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
     }
-    
-    public String getEmail() { return email; }
-    public String getPassword() { return password; }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 
 }
-
- 
