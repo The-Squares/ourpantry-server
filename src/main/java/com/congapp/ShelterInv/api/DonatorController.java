@@ -37,8 +37,8 @@ public class DonatorController {
     }
 
     @PostMapping
-    public void addPerson(@RequestBody Donator person) {
-        personService.addPerson(person);
+    public Donator addPerson(@RequestBody Donator person) {
+        return personService.addPerson(person);
     }
 
     @GetMapping

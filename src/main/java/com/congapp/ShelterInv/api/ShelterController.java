@@ -36,8 +36,8 @@ public class ShelterController {
     }
 
     @PostMapping
-    public void addShelter(@RequestBody Shelter shelter) {
-        shelterService.addShelter(shelter);
+    public Shelter addShelter(@RequestBody Shelter shelter) {
+        return shelterService.addShelter(shelter);
     }
 
     @GetMapping
